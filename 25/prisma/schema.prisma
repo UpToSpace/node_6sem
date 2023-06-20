@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model commits {
+  id      Int     @id(map: "PK__commits__3213E83F58B7A238") @default(autoincrement())
+  repoId  Int?
+  message String? @prisma.VarChar(255)
+  repos   repos?  @relation(fields: [repoId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_commits_repos")
+}
+
+model repos {
+  id       Int       @id(map: "PK__repos__3213E83F8CC725E7") @default(autoincrement())
+  name     String?   @prisma.VarChar(255)
+  authorId Int
+  commits  commits[]
+  users    users     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_repos_users")
+}
+
+model users {
+  id       Int     @id(map: "PK__users__3213E83FCDEE42E2") @default(autoincrement())
+  username String  @prisma.VarChar(16)
+  email    String? @prisma.VarChar(255)
+  password String  @prisma.VarChar(32)
+  role     String  @prisma.VarChar(5)
+  repos    repos[]
+}

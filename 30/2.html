@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TASK 2</title>
+</head>
+<body>
+    <p> sum(10, 2) = <span id="sumResult"></span></p>
+    <p> mul(3, 9) = <span id="mulResult"></span></p>
+    <p> sub(5, 4) = <span id="subResult"></span></p>
+<script>
+    (async () => {
+        const wasmCode = fetch('/p.wasm');
+        const { instance } = await WebAssembly.instantiateStreaming(wasmCode);
+        sumResult.innerHTML = instance.exports.sum(10, 2);
+        mulResult.innerHTML = instance.exports.mul(3, 9);
+        subResult .innerHTML= instance.exports.sub(5, 4);
+    })();
+</script>
+</body>
+</html>

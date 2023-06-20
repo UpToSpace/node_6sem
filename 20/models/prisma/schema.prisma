@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model apartments {
+  apartment_id Int     @id(map: "PK__apartmen__DC51C2ECD77AC9D9") @default(autoincrement())
+  city         String? @db.NVarChar(50)
+  street       String? @db.NVarChar(50)
+  house_number Int?
+  room_number  Int?
+  day_cost     Float?  @db.Money
+  rents        rents[]
+
+  @@index([city], map: "apartment_index")
+}
+
+model bill_details {
+  bill_id   Int       @id(map: "PK__bill_det__D706DDB31903B6ED") @default(autoincrement())
+  rent_id   Int?
+  bill_date DateTime? @db.Date
+  total     Float?    @db.Money
+  rents     rents?    @relation(fields: [rent_id], references: [rent_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__bill_deta__rent___2C3393D0")
+
+  @@index([bill_date], map: "rent_index")
+}
+
+model clients {
+  surname         String? @db.NVarChar(50)
+  name            String? @db.NVarChar(50)
+  passport_number String  @id(map: "PK__clients__D2CA6298A0879233") @db.NVarChar(50)
+  rents           rents[]
+}
+
+model rents {
+  rent_id                Int            @id(map: "PK__rents__03FC6F3534F69D1B") @default(autoincrement())
+  apartment_id           Int?
+  status                 String?        @db.NVarChar(50)
+  date_begin             DateTime?      @db.Date
+  date_end               DateTime?      @db.Date
+  client_passport_number String?        @db.NVarChar(50)
+  type                   String?        @db.NVarChar(50)
+  bill_details           bill_details[]
+  apartments             apartments?    @relation(fields: [apartment_id], references: [apartment_id], onDelete: NoAction, onUpdate: NoAction, map: "FK__rents__apartment__286302EC")
+  clients                clients?       @relation(fields: [client_passport_number], references: [passport_number], onDelete: NoAction, onUpdate: NoAction, map: "FK__rents__client_pa__29572725")
+}
+
+model sysdiagrams {
+  name         String @db.NVarChar(128)
+  principal_id Int
+  diagram_id   Int    @id(map: "PK__sysdiagr__C2B05B61779F550E") @default(autoincrement())
+  version      Int?
+  definition   Bytes?
+
+  @@unique([principal_id, name], map: "UK_principal_name")
+}

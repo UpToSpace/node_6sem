@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+
+<body>
+    <a href="/">Home</a>
+    <p style="color: red;"><%= locals.message ? message : null %></p>
+    <form action="/apartments" method="POST"> 
+        <input type="text" name="city" placeholder="city">
+        <input type="text" name="street" placeholder="street">
+        <input type="number" name="house_number" placeholder="house_number">
+        <input type="number" name="room_number" placeholder="room_number">
+        <input type="number" name="day_cost" placeholder="day_cost">
+        <input type="submit" value="Add apartment">
+    </form>
+    <form action="/apartments?_method=PUT" method="POST" >
+        <input type="number" name="apartment_id" placeholder="apartment_id">
+        <input type="text" name="city" placeholder="city">
+        <input type="text" name="street" placeholder="street">
+        <input type="number" name="house_number" placeholder="house_number">
+        <input type="number" name="room_number" placeholder="room_number">
+        <input type="number" name="day_cost" placeholder="day_cost">
+        <input type="submit" value="Update apartment">
+    </form>
+    <form action="/apartments?_method=DELETE" method="POST">
+        <input type="number" name="apartment_id" placeholder="apartment_id">
+        <input type="submit" value="Delete apartment">
+    </form>
+    <% if (data.length=== 0) { %>
+        <h1>There are no apartments</h1>
+        <% } else { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>apartment_id</th>
+                        <th>city</th>
+                        <th>street</th>
+                        <th>house_number</th>
+                        <th>room_number</th>
+                        <th>day_cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let i=0; i < data.length; i++) { %>
+                        <tr>
+                            <td><%= data[i].apartment_id %></td>
+                            <td><%= data[i].city %></td>
+                            <td><%= data[i].street %></td>
+                            <td><%= data[i].house_number %></td>
+                            <td><%= data[i].room_number %></td>
+                            <td><%= data[i].day_cost %></td>
+                        </tr>
+                        <% } %>
+                </tbody>
+            </table>
+            <% } %>
+</body>
+
+</html>

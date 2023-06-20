@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+
+<body>
+    <a href="/">Home</a>
+    <p style="color: red;"><%= locals.message ? message : null %></p>
+    <form action="/clients" method="POST">
+        <input type="text" name="passport_number" placeholder="passport number">
+        <input type="text" name="surname" placeholder="surname">
+        <input type="text" name="name" placeholder="name">
+        <input type="submit" value="Add client">
+    </form>
+    <form action="/clients?_method=PUT" method="POST" >
+        <input type="text" name="passport_number" placeholder="passport number">
+        <input type="text" name="surname" placeholder="surname">
+        <input type="text" name="name" placeholder="name">
+        <input type="submit" value="Update client">
+    </form>
+    <form action="/clients?_method=DELETE" method="POST">
+        <input type="text" name="passport_number" placeholder="passport number">
+        <input type="submit" value="Delete client">
+    </form>
+    <% if (data.length=== 0) { %>
+        <h1>There are no clients</h1>
+        <% } else { %>
+            <table>
+                <thead>
+                    <tr>
+                        <td>
+                            passport number
+                        </td>
+                        <td>
+                            surname
+                        </td>
+                        <td>
+                            name
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let i=0; i < data.length; i++) { %>
+                        <tr>
+                            <td>
+                                <%= data[i].passport_number %>
+                            </td>
+                            <td>
+                                <%= data[i].surname %>
+                            </td>
+                            <td>
+                                <%= data[i].name %>
+                            </td>
+                        </tr>
+                        <% } %>
+                </tbody>
+            </table>
+            <% } %>
+</body>
+
+</html>

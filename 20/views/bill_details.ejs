@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+
+<body>
+    <a href="/">Home</a>
+    <p style="color: red;"><%= locals.message ? message : null %></p>
+    <form action="/billDetails" method="POST">
+        <input type="number" name="rent_id" placeholder="rent_id">
+        <input type="date" name="bill_date" placeholder="bill_date">
+        <input type="number" name="total" placeholder="total">
+        <input type="submit" value="Add bill_detail">
+    </form>
+    <form action="/billDetails?_method=PUT" method="POST" >
+        <input type="number" name="bill_id" placeholder="bill_id">
+        <input type="number" name="rent_id" placeholder="rent_id">
+        <input type="date" name="bill_date" placeholder="bill_date">
+        <input type="number" name="total" placeholder="total">
+        <input type="submit" value="Update bill_detail">
+    </form>
+    <form action="/billDetails?_method=DELETE" method="POST">
+        <input type="number" name="bill_id" placeholder="bill_id">
+        <input type="submit" value="Delete bill_detail">
+    </form>
+    <% if (data.length=== 0) { %>
+        <h1>There are no bill_details</h1>
+        <% } else { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>bill_id</th>
+                        <th>rent_id</th>
+                        <th>bill_date</th>
+                        <th>total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let i=0; i < data.length; i++) { %>
+                        <tr>
+                            <td><%= data[i].bill_id %></td>
+                            <td><%= data[i].rent_id %></td>
+                            <td><%= data[i].bill_date.toDateString() %></td>
+                            <td><%= data[i].total %></td>
+                        </tr>
+                        <% } %>
+                </tbody>
+            </table>
+            <% } %>
+</body>
+
+</html>

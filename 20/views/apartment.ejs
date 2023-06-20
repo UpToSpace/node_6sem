@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <h1>Apartments</h1>
+    <% if (locals.data) { %>
+    <p> apartment_id: <%=data.apartment_id %></p>
+    <p> city: <%=data.city %></p>
+    <p> street: <%=data.street %></p>
+    <p> house_number: <%=data.house_number %></p>
+    <p> room_number: <%=data.room_number %></p>
+    <p> day_cost: <%=data.day_cost %></p>
+    <% } else { %>
+    <p style="color: red;"> Apartment not found </p>
+    <% } %>
+</body>
+</html>

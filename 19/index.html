@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table id="pulpitDiv"></table>
+    <div id="buttonDiv"></div>
+    <script>
+        async function btnOnClick () {
+            let pulpits = await fetch('/api/pulpits?page=' + this.innerHTML)
+            pulpits = await pulpits.json()
+            let pulpitDiv = document.getElementById('pulpitDiv')
+            pulpitDiv.innerHTML = '<tr><td>Кафедра</td><td>Название кафедры</td><td>Факультет</td><td>Количество преподавателей</td></tr>'
+            pulpits.forEach(pulpit => {
+                let tr = document.createElement('tr')
+                tr.innerHTML = '<td>' + pulpit.PULPIT + '</td><td>' + pulpit.PULPIT_NAME + '</td><td>' + pulpit.FACULTY + '</td><td>' + pulpit._count.TEACHER_TEACHER_PULPITToPULPIT + '</td>';
+                pulpitDiv.appendChild(tr)
+            })
+        }
+        async function func() {
+            let PER_PAGE = 10
+            let pulpitCount = await fetch('/api/pulpits/count')
+            pulpitCount = await pulpitCount.text()
+            pulpitCount = parseInt(pulpitCount)
+            console.log(pulpitCount)
+            let buttonDiv = document.getElementById('buttonDiv')
+            let buttonCount = Math.ceil(pulpitCount / PER_PAGE)
+            for (let i = 0; i < buttonCount; i++) {
+                let button = document.createElement('button')
+                button.innerHTML = i + 1
+                button.id = 'button' + button.innerHTML
+                button.onclick = btnOnClick
+                buttonDiv.appendChild(button)
+                console.log(button)
+            }
+            document.getElementById('button1').click()
+        }
+        func()      
+    </script>
+</body>
+
+</html>

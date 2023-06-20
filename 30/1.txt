@@ -1,0 +1,1 @@
+D:\University\emsdk\upstream\emscripten\emcc -O3 -o p.wasm -s WASM=1 -s SIDE_MODULE=1 p.c

@@ -1,0 +1,119 @@
+<html>
+
+<head>
+    <title>Lab18</title>
+</head>
+
+<body>
+    <div id='get_result'></div>
+    <button onclick="Get()">GET</button>
+    <br><br>
+    Teacher: <input name="Teacher" id="Teacher" />
+    <br><br>
+    Teacher_name: <input id="Teacher_name" />
+    <br><br>
+    Pulpit: <input id="Pulpit" />
+    <br><br>
+    <button onclick="Post()">Post</button>
+    <br><br>
+    Teacher: <input id="TeacherPut" />
+    <br><br>
+    Teacher_name: <input id="Teacher_namePut" />
+    <br><br>
+    Pulpit: <input id="PulpitPut" />
+    <br><br>
+    <button onclick="Put()">Put</button>
+    <br><br>
+    Teacher: <input id="TeacherDel" />
+    <br><br>
+    <button onclick="Del()">Del</button>
+    <br><br><br><br>
+    <div id="result"></div>
+    <script type='text/javascript'>
+        let Teacher = document.getElementById('Teacher');
+        let Teacher_name = document.getElementById('Teacher_name');
+        let Pulpit = document.getElementById('Pulpit');
+        let TeacherPut = document.getElementById('TeacherPut');
+        let Teacher_namePut = document.getElementById('Teacher_namePut');
+        let PulpitPut = document.getElementById('PulpitPut');
+        let TeacherDel = document.getElementById('TeacherDel');
+        let get_result = document.getElementById('get_result');
+        let result = document.getElementById('result');
+
+        function Get() {
+            console.log('GET');
+            fetch('http://localhost:3000/api/teachers', {
+                method: 'GET', mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+            }
+            )
+                .then(response => { return response.json(); })
+                .then((pdata) => {
+                    console.log('pdata', pdata);
+                    get_result.innerHTML = '';
+                    pdata.forEach(el => {
+                        get_result.innerHTML += (el.teacher + '. ' + el.teacher_name + ' ' + el.pulpit + '<br/>');
+                    });
+                });
+        }
+        function Post() {
+            console.log('Post');
+            fetch('http://localhost:3000/api/teachers', {
+                method: 'POST', mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ teacher: Teacher.value, teacher_name: Teacher_name.value, pulpit: Pulpit.value })
+            }
+            )
+                .then(response => {
+                    console.log(JSON.stringify({ teacher: Teacher.value, teacher_name: Teacher_name.value, pulpit: Pulpit.value }));
+                    return response.json();
+                })
+                .then((pdata) => {
+                    console.log('POST.pdata', pdata.messsage);
+                    if (pdata.messsage != undefined) {
+                        result.innerHTML = pdata.messsage;
+                    } else {
+                        result.innerHTML = 'Добавлено';
+                    }
+                });
+        }
+        function Put() {
+            console.log('PUT');
+            fetch('http://localhost:3000/api/teachers', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ teacher: TeacherPut.value, teacher_name: Teacher_namePut.value, pulpit: PulpitPut.value })
+            }
+            )
+                .then(response => { return response.json(); })
+                .then((pdata) => {
+                    console.log(pdata);
+                    if (pdata.message != undefined) {
+                        result.innerHTML = pdata.message;
+                    } else {
+                        result.innerHTML = 'Изменено';
+                    }
+                });
+        }
+        function Del() {
+            console.log('Delete');
+            console.log('http://localhost:3000/api/teachers/' + TeacherDel.value);
+            fetch('http://localhost:3000/api/teachers/' + TeacherDel.value, {
+                method: 'Delete',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            }
+            )
+                .then(response => { return response.json(); })
+                .then((pdata) => {
+                    console.log('Delete.pdata', pdata);
+                    if (pdata.messsage != undefined) {
+                        result.innerHTML = pdata.messsage;
+                    } else {
+                        result.innerHTML = 'Удалено';
+                    }
+                });
+        }
+    </script>
+</body>
+
+</html>

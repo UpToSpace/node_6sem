@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body>
+    <a href="/">Home</a>
+    <p style="color: red;"><%= locals.message ? message : null %></p>
+    <form action="/rents" method="POST">
+        <input type="text" name="apartment_id" placeholder="apartment_id">
+        <input type="text" name="status" placeholder="status" readonly value="not paid">
+        <input type="date" name="date_begin" placeholder="date begin">
+        <input type="date" name="date_end" placeholder="date end">
+        <input type="text" name="client_passport_number" placeholder="client_passport_number">
+        <input list="type" name="type" placeholder="type">
+        <datalist id="type">
+            <option value="Субаренда">
+            <option value="Аренда комнаты">
+            <option value="Краткосрочная аренда">
+        </datalist>
+        <input type="submit" value="Add rent">
+    </form>
+    <form action="/rents?_method=PUT" method="POST">
+        <input type="text" name="rent_id" placeholder="rent_id">
+        <input type="text" name="apartment_id" placeholder="apartment_id">
+        <input type="text" name="status" placeholder="status" readonly value="not paid">
+        <input type="date" name="date_begin" placeholder="date begin">
+        <input type="date" name="date_end" placeholder="date end">
+        <input type="text" name="client_passport_number" placeholder="client_passport_number">
+        <input list="type" name="type" placeholder="type">
+        <datalist  id="type">
+            <option value="Субаренда">
+            <option value="Аренда комнаты">
+            <option value="Краткосрочная аренда">
+        </datalist>
+        <input type="submit" value="Update rent">
+    </form>
+    <form action="/rents?_method=DELETE" method="POST">
+        <input type="text" name="rent_id" placeholder="rent id">
+        <input type="submit" value="Delete rent">
+    </form>
+    <% if (data.length===0) { %>
+        <h1>There are no rents</h1>
+        <% } else { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>rent_id</th>
+                        <th>apartment_id</th>
+                        <th>status</th>
+                        <th>date_begin</th>
+                        <th>date_end</th>
+                        <th>client_passport_number</th>
+                        <th>type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let i=0; i < data.length; i++) { %>
+                        <tr>
+                            <td><%= data[i].rent_id %></td>
+                            <td><%= data[i].apartment_id %></td>
+                            <td><%= data[i].status %></td>
+                            <td><%= data[i].date_begin.toDateString() %></td>
+                            <td><%= data[i].date_end.toDateString() %></td>
+                            <td><%= data[i].client_passport_number %></td>
+                            <td><%= data[i].type %></td>
+                        </tr>
+                        <% } %>
+                </tbody>
+            </table>
+            <% } %>
+</body>
+
+</html>

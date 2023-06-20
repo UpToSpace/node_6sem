@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <h1>Bill details</h1>
+    <% if (locals.data) { %>
+    <p>bill_id:<%= data.bill_id %></p>
+    <p>rent_id:<%= data.rent_id %></p>
+    <p>bill_date:<%= data.bill_date.toDateString() %></p>
+    <p>total:<%= data.total %></p>
+    <% } else { %>
+    <p style="color: red;"> Bill not found </p>
+    <% } %>
+</body>
+</html>

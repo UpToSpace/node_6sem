@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <h1>Rent</h1>
+    <% if (locals.data) { %>
+    <p> rent_id: <%=data.rent_id %></p>
+    <p> apartment_id: <%=data.apartment_id %></p>
+    <p> status: <%=data.status %></p>
+    <p> date_begin: <%=data.date_begin.toDateString() %></p>
+    <p> date_end: <%=data.date_end.toDateString() %></p>
+    <p> client_passport_number: <%=data.client_passport_number %></p>
+    <p> type: <%=data.type %></p>
+    <% } else { %>
+    <p style="color: red;"> Rent not found </p>
+    <% } %>
+</body>
+</html>
